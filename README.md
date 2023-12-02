@@ -1,5 +1,9 @@
 # tripura-django-ecommerce-website
-website for a product based company
+### website for a product based company
+
+# Status: Ongoing 
+
+
 ![home](https://github.com/DvpLoki/tripura-django-ecommerce-website/assets/131589195/109ad093-59f7-4551-8984-7c9bfdc1f097)
 ![products](https://github.com/DvpLoki/tripura-django-ecommerce-website/assets/131589195/eb59c950-577b-4dca-8e8f-69cec11f99f9)
 ![productdetail-2](https://github.com/DvpLoki/tripura-django-ecommerce-website/assets/131589195/9547af95-061a-432f-b72d-a4b8e2ccc946)
