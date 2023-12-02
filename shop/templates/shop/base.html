@@ -1,0 +1,178 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>{% block title %} Tripura {% endblock %}</title>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      [x-cloak] {
+                 display: none;
+                }
+
+       :root {
+  --main-color: #FB5924;
+  --footer-color:#1D2C49
+}         
+
+    </style>
+
+ 
+    <script src="{% static 'htmx.min.js' %}" defer></script>
+    <script src="{% static 'alpinejs.min.js' %}" defer></script>
+
+
+
+
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
+
+   
+
+    <script src="https://unpkg.com/hyperscript.org@0.9.12" defer></script>
+
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+    >
+    </script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+    ></script>
+    
+  </head>
+
+{% block head %}
+<head></head>
+{% endblock %}
+
+
+
+
+
+
+  <body style="font-family: poppins;" x-data="{showlogin:false, showregister:false}" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+    <!-- nav bar -->
+    <div
+      class="flex p-5 justify-between items-center w-screen h-2/4 bg-[var(--main-color)]  ">
+      <a href="/" class="md:pl-5 ">
+        <img height="200" width="200" src="{% static "logo.png" %}" alt="Tripura">
+      </a>
+      <div
+        class="nav-links duration-500 absolute  md:static bg-[#FB5924] md:min-h-fit min-h-[40vh] w-full md:w-auto left-0   top-[-100%] flex items-center md:mt-0 px-5">
+        <ul
+          class="text-white md:items-center flex  [&>li>a]:font-semibold md:flex-row flex-col md:gap-[4vw] gap-8">
+          <li><a class="hover:text-gray-500" href="/">Home</a></li>
+          <li><a class="hover:text-gray-500 " href="/shop">Shop</a></li>
+          <li><a class="hover:text-gray-500" href="/#about">About</a></li>
+          <li><a class="hover:text-gray-500" href="/">Contact</a></li>
+        </ul>
+      </div>
+      <div class="text-white flex gap-3">
+        <div class="flex md:pr-5 gap-5">
+          <div id="user">
+           {% include "shop/partials/user.html" %}
+            
+          </div>
+          <div class="flex-col hover:scale-125">
+            <a href="{% url 'cart:cart_detail' %}"><ion-icon class="text-3xl" name="cart-outline"></ion-icon></a>
+            {% with total_items=cart|length %}
+              {% if total_items > 0 %}
+                <p id="cartitemcount"
+                  class="rounded-full text-black bg-gray-300 -mt-10 ml-7 w-5 h-5 flex items-center justify-center"
+                >
+                  {{total_items}}
+                </p>
+              {% endif %}  
+            {% endwith %}
+          </div>
+        </div>
+        <ion-icon
+          onclick="toggle(this)"
+          name="menu-outline"
+          class="text-3xl cursor-pointer md:hidden"
+        ></ion-icon>
+      </div>
+    </div>
+
+    <!-- content -->
+    <div  id="content">
+      {% block content %} 
+      {% endblock %}
+    </div>
+
+    <!-- footer -->
+    <div
+      class="flex flex-row w-screen justify-center h-[50vh] px-5 py-8 items-center bg-[#1D2C49]"
+    >
+      <div class="mr-10">
+        <ul class="text-xl text-white space-y-4">
+          <li><a>FAQ</a></li>
+          <li><a>Shipping & Returns</a></li>
+          <li><a>Store Policy</a></li>
+          <li><a>Payments</a></li>
+        </ul>
+      </div>
+
+      <div class="ml-10">
+        <ul class="text-xl text-white py-8 space-y-4">
+          <li>TRIPURA</li>
+          <li class="flex gap-2">
+            <ion-icon name="logo-whatsapp" class="align-middle"></ion-icon>
+            <p>123-33-445</p>
+          </li>
+          <li class="flex gap-2">
+            <ion-icon name="mail-outline" class="align-middle"></ion-icon>
+            <p>info@tripura.com</p>
+          </li>
+          <li class="flex gap-5">
+            <ion-icon class="hover:scale-150" name="logo-facebook"></ion-icon
+            ><ion-icon class="hover:scale-150" name="logo-instagram"></ion-icon
+            ><ion-icon class="hover:scale-150" name="logo-youtube"></ion-icon>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- footer end-->
+    <div class="w-screen bg-white text-center ">
+      <p class="py-2 tex-lg">© 2023 by Tripura</p>
+    </div>
+
+
+    <script>
+      const nav = document.querySelector(".nav-links");
+      function toggle(e) {
+        e.name = e.name === "menu-outline" ? "close" : "menu-outline";
+        nav.classList.toggle("top-[17%]");
+      }
+    </script>
+  
+
+
+<div id="login">
+{% include "shop/partials/login.html" %}
+</div>
+<div id="register">
+{% include "shop/partials/register.html" %}
+</div>
+
+
+
+<section id="msgs">
+
+
+</section>
+
+  </body>
+</html>

@@ -1,0 +1,111 @@
+{% extends "shop/base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %} {{product.product.name}} {% endblock %} 
+
+{% block content %}
+  <div class="w-[90%]   mx-auto p-3 mb-32" id="product_detail">
+    
+    <!-- navigation breadcrumbs -->
+    <div class="pt-5 ">
+      <a href="/">Home</a> <ion-icon name="chevron-forward-outline" class="align-middle" ></ion-icon>
+      <a href="/shop">shop</a><ion-icon name="chevron-forward-outline"class="align-middle"></ion-icon>
+      <a href="{{ product.product.category.get_absolute_url }}">{{ product.product.category.name }}</a><ion-icon name="chevron-forward-outline"class="align-middle"></ion-icon>
+      
+    </div>
+
+    <!-- product-->
+    <div class="flex md:flex-row flex-col  gap-10 mt-16 pt-12 md:pt-0 md:mt-6">
+      
+        <!-- image set-->
+          <div x-data="{ selectedImage: null }" class="flex md:flex-row flex-col-reverse gap-4  w-full h-[50vh] md:w-[70%] md:h-[70vh]">
+            <!-- Left Box: Thumbnails -->
+            <div class=" flex md:flex-col items-center px-2 md:px-0 gap-1 w-full md:w-[20%] h-20 md:h-32 ">
+                    {% for im in product.images.all %}
+                        <div @click="selectedImage = '{{ im.image.url }}'" :class="{ 'border-2 border-blue-500': selectedImage === '{{ im.image.url }}' }" class="cursor-pointer align-middle">
+                            
+                          <img src="{{ im.image.url }}" alt="{{ im.alternative_text }}" class="w-20 h-20 md:w-28 md:h-28">
+                            
+                        </div>
+                    {% endfor %}  
+                
+            </div>
+
+            <!-- Right Box: Big Image Placeholder -->
+            <div class="md:w-[80%] w-full   h-full">
+                <img x-show="!selectedImage" src="{% if product.images and product.images.first.is_feature %}{{ product.images.first.image.url }}{% endif %}" alt="Image" class="w-full h-full object-contain">
+                <img x-show="selectedImage" x-bind:src="selectedImage" alt="Selected Image" class="w-full h-full object-contain">
+            </div>
+          </div>
+
+
+          
+        <!-- product details-->
+          <div class="md:w-[40%] w-full p-2 space-y-5 md:pt-8">
+            
+            <h1 class="text-4xl font-bold">{{product.product.name | capfirst}} {{product.name}}</h1>
+              <div class="flex gap-2">
+              {%  for attr in product.attributevalue.all %}
+              <p class="text-lg">{{attr.attribute}}:<p class=" text-lg"  > {{ attr }}</p>
+              {% endfor %}
+              </div>
+
+              {% for var in variations %}
+
+                {%  for attr in var.attributevalue.all %}
+
+                <button  hx-post="{{var.get_absolute_url}}"  hx-target="#content" hx-push-url="true" class=" mr-2 hover:bg-orange-400 text-orange-700 font-semibold hover:text-white py-2 px-4 border border-orange-500 hover:border-transparent rounded {% if var.id == product.id %}bg-orange-600 text-white  {% endif %}">{{attr}}</button>
+
+                {% endfor %}
+
+              {% endfor %}
+              
+              <div class="flex  gap-4"> 
+              {% if product.selling_price < product.cost_price %}
+                 <div class=" flex flex-col"><p class="text-3xl text-rose-500 font-semibold">-{{ product.get_discount }}%</p> <p class="text-md">  <strike >₹ {{ product.cost_price }}</strike></p></div> 
+                  {%  endif %}
+              <h2 class="text-3xl font-bold "> ₹{{ product.selling_price }}</h2>
+              </div>
+
+
+                <div x-data="{showlocation:false}" >
+                  <div class=" inline-flex block gap-2 font-semibold cursor-pointer text-sky-800 hover:text-red-500" @click="showlocation=true">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+                  </svg>
+                  <h3 class=" " >Delivery to </h3>
+                  <h3 id="delivery"></h3>
+                  </div>
+
+                  {% include 'shop/partials/chooselocation.html' %}
+
+                </div>
+                <form method="post" action="{% url 'cart:cart_add' product.id %}" class="mt-6">
+                   {% csrf_token %}
+                    <label for="{{ cart_product_form.quantity.id_for_label }}">{{ cart_product_form.quantity.label }}:</label>
+                    {% render_field  cart_product_form.quantity class="w-10 " %}
+          
+          <button type="submit" class="mt-5 mx-2 bg-black text-white p-2 w-full font-bold rounded-md hover:bg-slate-600 focus:outline-none focus:ring focus:border-blue-500">
+              Add to Cart
+          </button>
+      </form>
+
+
+              <div class="pt-8">
+                {% if product.product.description %}
+                  <h2 class="pb-2">DESCRIPTION:</h2>
+                  <p>{{ product.product.description }}</p>
+                {% endif %}
+              </div>
+            
+          </div>
+      
+    </div>
+
+
+
+  </div>
+
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'shop/base.html' %}
+{%  load static %}
+{% block title %}
+    Checkout
+{% endblock %}    
+
+{% block content %}
+<div class="w-[60%] mx-auto h-[30vh] p-5 my-20">
+
+    <h1 class="text-5xl font-bold">Thank You</h1>
+    <h2>Your order has been placed successfully. </h2>
+    <p>your order id is <strong>{{order.id}}.</strong></p>
+
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,73 @@
+<html>
+   <head>
+      <style>
+         *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+         }
+         table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+      </style>
+   </head>
+<body style="width: 90%;margin: auto;">
+   <hr>
+ <h1 style="font-size: xx-large;text-align: center;">Tripura</h1>
+ <hr>
+ <p style="padding-top: 10px;font-size:large;">
+ Invoice no. #{{ order.id }}<br>
+ <span >
+ {{ order.Created|date:"M d, Y" }}
+ </span>
+ </p>
+ <h3 style="font-size: large;font-weight: bold;">Bill to:</h3>
+ <p>
+ {{ order.firstname }} {{ order.lastname }}<br>
+ {{ order.email }}<br>
+ {{ order.address }}<br>
+ {{ order.postalcode }}, {{ order.city }},{{order.state}}
+ </p>
+
+ 
+ <p>payment Method :{{order.paymentmethod}}<br>payment:<span style=" background-color: antiquewhite; padding:20px;font-weight:bold; {% if order.Paid %}color:green;{% else %}color:red;{% endif %}">
+ {% if order.paid %}Paid{% else %}Pending payment{% endif %}
+ </span></p>
+ <h3 style="font-size: large;">Items bought</h3>
+
+ <table border="1">
+ <thead>
+ <tr>
+ <th>Product</th>
+ <th>Unit Price</th>
+ <th>Quantity</th>
+ <th>Cost</th>
+ </tr>
+ </thead>
+ <tbody>
+ {% for item in order.items.all %}
+
+    <tr >
+    <td>{{ item.product.product.name }}</td>
+    <td class="num">Rs.{{ item.price }}</td>
+    <td class="num">{{ item.quantity }}</td>
+    <td class="num">Rs.{{ item.get_cost }}</td>
+    </tr>
+ {% endfor %}
+ <tr >
+ <td colspan="3" style="font-weight: bold;">Total</td>
+ <td style="font-weight: bolder; font-size: larger;" >Rs.{{ order.get_total_cost }}</td>
+ </tr>
+ </tbody>
+ </table>
+ 
+ 
+</body>
+</html>

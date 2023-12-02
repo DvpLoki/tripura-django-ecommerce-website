@@ -1,0 +1,77 @@
+{% extends "shop/base.html" %}
+{% load static %}
+
+{% block title %}
+  {% if category %}{{ category.name }}{% else %}Products{% endif %}
+{% endblock %}
+
+{% block content %}
+
+<div class="w-[80%] mx-auto pt-6 min-h-[80vh]">
+{% if products %}
+
+  <!-- Categories -->
+  <div class="bg-white rounded-sm p-3">
+    <ul class="flex flex-row flex-nowrap space-x-5">
+      <li class="">
+        <a {% if not category %} class="font-bold  rounded-md px-3 py-2 flex-auto hover:bg-slate-100" {% endif %} href="{% url "shop:product_list" %}">All</a>
+      </li>
+      {% for c in categories %}
+        <li class="">
+          <a {% if category and category.slug == c.slug %} class="font-bold" {% endif %} href="{{ c.get_absolute_url }}" class="hover:font-bold hover:bg-slate-100  px-3 py-2  rounded-md flex-auto">{{ c.name }} </a>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <!-- Products -->
+  <div class="bg-white my-5 p-3 rounded-md">
+    <h1 class="font-bold text-3xl text-center pb-10">
+      {% if category %}{{ category.name }}{% else %} Products{% endif %}
+    </h1>
+
+    <div class="flex md:flex-row flex-col flex-wrap gap-5 justify-center items-center">
+      {% for p in products %}
+        <div class="flex-none border-2 border-gray-200 rounded-md pt-2">
+          <!-- product image -->
+            <a href="{{ p.get_absolute_url }}"> 
+              <div >
+                  {% for image in p.images.all %}
+                    {% if image.is_feature %}
+                      <img src="{{ image.image.url }}" alt="{{image.alternative_text}}" class="w-80 md:w-80 h-80 object-contain"/>
+                    {% endif %}
+                  {% endfor %}
+              </div>
+            </a>
+          <!-- product details -->  
+            <div class="flex flex-col p-3 items-center ">
+
+              <a href="{{ p.get_absolute_url }}" class="font-semibold">
+                {{ p.product }} {{p.name}}
+              </a>
+              <div class="">
+                <a class="inline-flex gap-2" href="{{ p.get_absolute_url }}">
+                  {% if p.selling_price < p.cost_price %}
+                 <div class=" flex flex-col"><p class="text-lg text-rose-500 font-semibold">-{{ p.get_discount }}%</p> <p class="text-xs">  <strike >₹ {{ p.cost_price }}</strike></p></div> 
+                  {%  endif %}
+                  
+                  <p class="text-xl font-semibold">₹ {{ p.selling_price }}</p>
+                </a>
+                
+              </div>
+            </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% else %}
+
+<div class="flex flex-col  mt-10">
+<h1 class="text-3xl font-semibold"> currently No Products Available </h1>
+<p> Please visit Later.😊..</p>
+</div>
+
+{% endif %}
+{% endblock %}

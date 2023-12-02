@@ -1,0 +1,130 @@
+
+<div class="w-full md:w-[60%] md:mx-auto mx-5 my-8 px-3">
+  <h2 class="text-3xl text-gray-700 my-8 font-semibold ">Edit Profile</h2>
+
+ <div class="mx-4">
+    <form hx-post="{% url "account:editprofile" %}" class="space-y-5">
+       
+      <!-- firstname , lastname-->
+      <div class="flex md:flex-row w-full flex-col  gap-5">
+        <div class=" md:w-[50%]">
+          <label for="firstname" class="block text-md font-medium leading-6 text-gray-900">FirstName</label>
+          <div class="mt-2">
+            <input id="firstname" name="firstname" type="text"  
+              required  placeholder="firstname"
+              class=" w-full rounded-md border-0 p-2  text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            >
+          </div>
+        </div>
+        <div class=" md:w-[50%]">
+          <label for="lastname" class="block text-md font-medium leading-6 text-gray-900">LastName</label>
+          <div class="mt-2">
+            <input id="lastname" name="lastname" type="text"
+            required  placeholder="lastname"
+            class=" w-full rounded-md border-0 p-2  text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+          </div>
+        </div>
+
+      </div>
+
+      <!-- email mobile -->
+          <div class="flex md:flex-row w-full flex-col  gap-5">
+            <div class=" md:w-[50%]">
+              <label for="email" class="block text-md font-medium leading-6 text-gray-900">Email</label>
+              <div class="mt-2">
+                <input id="email" name="email" type="email"  
+                required  placeholder="example@gmail.com" autocomplete="email"
+                class=" w-full rounded-md border-0 p-2  text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+              </div>
+            </div>
+            <div class=" md:w-[50%]">
+              <label for="mobilenumber" class="block text-md font-medium leading-6 text-gray-900">MobileNumber</label>
+              <div class="mt-2">
+                <input id="mobilenumber" name="mobilenumber" type="text"
+                required  placeholder="8328478377" autocomplete="number"
+                class=" w-full rounded-md border-0 p-2  text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+              </div>
+            </div>
+          </div>
+
+            <!-- dob gender  -->
+              <div class="flex md:flex-row w-full flex-col  gap-5">
+                <div class=" md:w-[50%]">
+                  <label for="dob" class="block text-md font-medium leading-6 text-gray-900">Date of Birth</label>
+                  <div class="mt-2">
+                    <input id="dob" name="dob" type="date"  
+                      required  
+                    class=" w-full rounded-md border-0 p-2  text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                  </div>
+                </div>
+                <div class=" md:w-[50%]">
+                  <label for="gender" class="block text-md font-medium leading-6 text-gray-900">Gender</label>
+                  <div class="mt-2">
+                    <select id="gender" name="gender" 
+                      required  
+                      class=" w-full rounded-md border-0 p-2  text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                      <option value="M"> Male </option>
+                      <option value="F"> Female </option>
+                      <option value="O">Other </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+
+              <!-- address -->
+                  <div >
+
+                    <div class="pt-5">
+                      <label for="address" class="block text-md font-medium leading-6 text-gray-900">Address</label>
+                      <div class="mt-2">
+                        <textarea id="address" name="address"   
+                          required  rows="5" placeholder="home address"
+                          class=" w-full rounded-md border-0 p-2  text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        ></textarea>
+                      </div>
+                    </div>
+                    <!-- pincode ,city state -->
+                    <div class="flex md:flex-row w-full flex-col pt-3 gap-5">
+
+                        <div class=" md:w-[50%]">
+                        <label for="pincode" class="block text-md font-medium leading-6 text-gray-900">Pincode</label>
+                        <div class="mt-2">
+                          <input id="pincode" name="pincode" type="text"  
+                          required  placeholder="516360"
+                          class=" w-full rounded-md border-0 p-2  text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                        </div>
+                      </div>
+
+                        <div class=" md:w-[50%]">
+                          <div class="flex md:flex-row w-full flex-col  gap-5">
+                            <div class=" md:w-[50%]">
+                              <label for="city" class="block text-md font-medium leading-6 text-gray-900">city</label>
+                              <div class="mt-2">
+                                <input id="city" name="city" type="text"  
+                                required  placeholder="tirupati"
+                                class=" w-full rounded-md border-0 p-2  text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                              </div>
+                            </div>
+                            <div class=" md:w-[50%]">
+                              <label for="state" class="block text-md font-medium leading-6 text-gray-900">State</label>
+                              <div class="mt-2">
+                                <input id="state" name="state" type="text"
+                                required  placeholder="AP"
+                                class=" w-full rounded-md border-0 p-2  text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                              </div>
+                            </div>
+                          </div>
+                    </div>
+                  </div>      
+                
+    
+                <div class="w-full flex gap-5 pt-8">
+                  <button type="submit" class="w-[50%] text-white text-md px-5 py-2.5 bg-sky-500 rounded-lg focus:ring-4 focus:ring-sky-400 ">Submit</button>
+                  <button hx-get="{% url 'account:myaccount'  %}" hx-refresh="true" hx-target="#content" class="w-[50%] text-white text-md px-5 py-2.5 bg-red-500 rounded-lg focus:ring-4 focus:ring-red-300">Cancel
+                  </button>
+                </div>
+      </form>
+  </div>
+
+</div>

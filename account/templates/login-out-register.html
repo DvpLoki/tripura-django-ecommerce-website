@@ -1,0 +1,14 @@
+
+{% include "msg.html"%}
+
+<div id="user" hx-swap-oob="true" >
+    {% include "shop/partials/user.html"  %}
+
+</div>
+
+{% if action %}
+<div  x-init="setTimeout(()=>{{type}}={{value}},4000)" >
+</div>
+{% endif  %}
+
+

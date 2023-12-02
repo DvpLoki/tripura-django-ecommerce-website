@@ -1,0 +1,79 @@
+{% extends 'shop/base.html' %}
+ {% load static %}
+ {% load widget_tweaks %}
+
+{% block title %} My Cart {% endblock %} {% block content %}
+<div class="md:flex  py-10 w-full md:w-[80%] lg:w-[70%] mb-20 mx-auto justify-center item-center md:gap-6">
+
+  <!-- items-->
+  <div class="m-5 md:w-[60%] w-[95%] mx-auto ">
+    
+    <h2 class="font-bold text-2xl">My Cart</h2>
+    <hr />
+    {% if cart.get_total_price != 0 %}
+      {% for item in cart %}
+       {% with product=item.product %}
+         <div class="flex flex-row justify-between gap-5 mt-2 py-5">
+          <div class=" flex gap-5">
+            <div>
+              <a href="{{product.get_absolute_url}}">
+                {% for im in product.images.all %}
+                {% if im.is_feature %}
+                <img src='{{ im.image.url }}' class="object-contain w-[70px] h-[70px]" alt='image'/>
+                {% endif %}
+                {% endfor  %}
+               </a>
+            </div>
+          <div class="flex-col">
+            <p>{{ product.product.name }} </p><strike><p class="text-sm text-gray-700">₹{{ product.cost_price}}</p></strike>
+            <p class="text-md">₹{{ product.selling_price}}</p>
+            <form action="{% url 'cart:cart_remove' product.id %}" method="post"><input type="submit"  class="text-sm text-red-500 cursor-pointer" value="remove"/>{% csrf_token%}</form>
+          </div>
+        </div>
+        <div>
+          <p>₹{{ item.total_price}}</p>
+          <form  action="{% url 'cart:cart_add' product.id %}" method="post">
+            {% csrf_token %}
+            <label for="{{ item.update_quantity_form.quantity.id_for_label }}">{{ item.update_quantity_form.quantity.label }}:</label>
+             {% render_field  item.update_quantity_form.quantity class="w-10 " %}
+            <input class="bg-orange-400 text-white font-semibold cursor-pointer hover:bg-orange-500 px-4 py-2 rounded-md" type="submit" value="update" />
+          </form>
+        </div>
+     </div>
+      <hr>
+    {% endwith %} {% endfor %}
+       <a  class="  underline" href="{% url 'shop:product_list' %}">Continue Shopping</a>
+
+  </div>
+
+
+
+  <!-- summary -->
+  
+  <div class="m-5 md:pt-0  pt-5 md:w-[30%] ">
+    <h2 class="font-bold text-xl">Order Summary</h2>
+    <hr />
+    <div class="flex justify-between mt-2 space-y-2">
+      <p class="">Subtotal</p>
+      <p> ₹{{ cart.get_total_price }}</p>
+    </div>
+    <div class="flex justify-between">
+      <p>Delivery</p>
+      <p class="text-xl text-sky-500"> FREE</p>
+    </div>
+    <hr />
+    <div class="flex justify-between mt-2">
+      <p>Total</p>
+      <p> ₹{{cart.get_total_price}}</p>
+    </div >
+    <br>
+  
+    <a  href="{% url "orders:order_create" %}"><button class="bg-black text-white font-bold w-full  p-2">Checkout</button></a>
+    
+  </div>
+  {% else %}
+    <p class="mt-5">Your Cart is Empty</p>
+  {% endif %}
+</div>
+
+{% endblock %}
